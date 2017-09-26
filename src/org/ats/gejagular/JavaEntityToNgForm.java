@@ -15,11 +15,15 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.StringJoiner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Stream;
 import static org.ats.gejagular.GenarateService.genService;
 import static org.ats.gejagular.UtiGen.baseEntityDir;
+import org.ats.gejagular.entity.Badge;
+//import org.ats.gejagular.entity.*;
+
 
 /**
  * *
@@ -194,8 +198,8 @@ public final class JavaEntityToNgForm {
     public  void generateHtmlFile(Class clazz) {
         String contenu = generateFormText(clazz);
         //   System.out.println(contenu + "\n\n\n");
-      baseEntityDir(clazz);
-        Path fichier = Paths.get(clazz.getSimpleName().toUpperCase()+"/"+clazz.getSimpleName().toLowerCase() + ".component.html");
+     String dest= baseEntityDir(clazz);
+        Path fichier = Paths.get(dest+"/"+clazz.getSimpleName().toLowerCase() + ".component.html");
         Charset charset = Charset.forName("UTF-8");
         try (BufferedWriter writer = Files.newBufferedWriter(fichier, charset)) {
             writer.write(contenu, 0, contenu.length());
@@ -205,8 +209,8 @@ public final class JavaEntityToNgForm {
         // contenu = "";
     }
     
-    public void outAllFile(Class clazz){
-        generateAll(clazz);
+    public void outAllFile(Object clazz){
+        generateAll((Class) clazz);
     }
 
     public void generateAll(Class clazz) {
@@ -218,17 +222,22 @@ public final class JavaEntityToNgForm {
         JavaEntityToNgForm a=new JavaEntityToNgForm();
         
         System.out.println("out work");
-        
-        File fic=new File("./src\\org\\lcherubin\\javaentitytongform/entity");
+        Class cs=Badge.class;
+        System.out.println("show class"+cs.getTypeName());
+      //  org.ats.gejagular.
+        StringJoiner joiner= new StringJoiner(".");
+        joiner.add("org").add("ats").add("gejagular");
+        File fic=new File("./src/org/ats/gejagular/entity");
         File[] lisf=fic.listFiles();
         for (File lisf1 : lisf) {
             System.out.println("liste fille"+ lisf1.getName());
             System.out.println("liste fille"+ lisf1.getName().replace("java", "class"));
-            String t=lisf1.getName().replace("java", "class");
+            String t=lisf1.getName().replace(".java", "");
             Class c;
+            
             System.out.println("Class "+t);
             try {
-                c = Class.forName(t);
+                c = Class.forName("org.ats.gejagular.entity."+t);
                 System.out.println("Class convert "+c);
                    a.outAllFile(c);
             } catch (ClassNotFoundException ex) {
@@ -237,7 +246,7 @@ public final class JavaEntityToNgForm {
          
         }
         System.out.println("Repertoire");
-        Path path =Paths.get("./", "src/org/lcherubin/javaentitytongform/entity");
+        Path path =Paths.get("./", "src/org/ats/gejagular/entity");
         
         try(Stream<Path> strem=Files.list(path)) {
             strem.filter(paths -> path.toFile().isDirectory()).forEach(System.out::println);
@@ -245,7 +254,7 @@ public final class JavaEntityToNgForm {
         } catch (Exception e) {
         }
          System.out.println("Sous repertoire");
-        Path path1 =Paths.get("./", "src/org/lcherubin/javaentitytongform/entity");
+        Path path1 =Paths.get("./", "src/org/ats/gejagular/entity");
         
         try(Stream<Path> strem=Files.walk(path1)) {
             strem.filter(paths -> path.toFile().isDirectory()).forEach(System.out::println);

@@ -16,8 +16,14 @@ import java.util.logging.Logger;
 public class UtiGen {
 
     private static final Logger log = Logger.getLogger(UtiGen.class.getName());
+    static String baseDir="./app/entity/";
     
-    static void baseEntityDir(Class clazz){
+    static String baseEntityDir(Class clazz){
+        File dirEntitys =new File(baseDir);
+        if (!dirEntitys.exists()) {
+            dirEntitys.mkdir();
+        }
+    
            File dirEntity =new File(clazz.getSimpleName().toLowerCase());
         if (!dirEntity.exists()) {
             dirEntity.mkdir();
@@ -37,6 +43,8 @@ public class UtiGen {
 //               dirEntity.mkdirs();
 //           }
         }
+        log.log(Level.INFO,"Créer le dossier de l'entité model retourné {}",dirEntity.getAbsolutePath());
+        return dirEntity.getAbsolutePath();
     }
     
 }
