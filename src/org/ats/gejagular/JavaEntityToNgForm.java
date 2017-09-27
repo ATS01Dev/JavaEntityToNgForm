@@ -15,12 +15,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.StringJoiner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.stream.Stream;
 import static org.ats.gejagular.GenarateService.genService;
-import org.ats.gejagular.entity.Badge;
 
 
 /**

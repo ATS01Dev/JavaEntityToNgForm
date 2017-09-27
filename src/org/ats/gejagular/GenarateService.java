@@ -25,7 +25,7 @@ public class GenarateService {
     public GenarateService() {
     }
 
-    static String coreServic(Class clazz) {
+    static String coreService(Class clazz) {
         String className = clazz.getSimpleName();
         StringBuilder serviceClass = new StringBuilder();
         log.info("import angular librairie");
@@ -71,7 +71,7 @@ public class GenarateService {
     }
 
     static void genService(Class clazz) {
-        String contenu = coreServic(clazz);
+        String contenu = coreService(clazz);
         //   System.out.println(contenu + "\n\n\n");
        // baseEntityDir(clazz);
          String dest= UtiGen.destEnttity(clazz);
