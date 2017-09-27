@@ -13,7 +13,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import static org.ats.gejagular.UtiGen.baseEntityDir;
 
 /**
  *
@@ -74,8 +73,9 @@ public class GenarateService {
     static void genService(Class clazz) {
         String contenu = coreServic(clazz);
         //   System.out.println(contenu + "\n\n\n");
-        baseEntityDir(clazz);
-        Path fichier = Paths.get(clazz.getSimpleName().toUpperCase() + "/" + clazz.getSimpleName().toLowerCase() + ".service.ts");
+       // baseEntityDir(clazz);
+         String dest= UtiGen.destEnttity(clazz);
+        Path fichier = Paths.get(dest+"/"+clazz.getSimpleName().toLowerCase() + ".service.ts");
         Charset charset = Charset.forName("UTF-8");
         try (BufferedWriter writer = Files.newBufferedWriter(fichier, charset)) {
             writer.write(contenu, 0, contenu.length());

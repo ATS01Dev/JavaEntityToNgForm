@@ -20,9 +20,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Stream;
 import static org.ats.gejagular.GenarateService.genService;
-import static org.ats.gejagular.UtiGen.baseEntityDir;
 import org.ats.gejagular.entity.Badge;
-//import org.ats.gejagular.entity.*;
 
 
 /**
@@ -146,9 +144,10 @@ public final class JavaEntityToNgForm {
      */
     public void generateModelFile(Class clazz) {
         String contenu = generateNgModelText(clazz);
-     baseEntityDir(clazz);
+     //baseEntityDir(clazz);
+     String dest= UtiGen.destEnttity(clazz);
         //   System.out.println(contenu + "\n\n\n");
-        Path fichier = Paths.get(clazz.getSimpleName().toLowerCase()+"/"+clazz.getSimpleName().toLowerCase() + ".model.ts");
+        Path fichier = Paths.get(dest+"/"+clazz.getSimpleName().toLowerCase() + ".model.ts");
         Charset charset = Charset.forName("UTF-8");
         try (BufferedWriter writer = Files.newBufferedWriter(fichier, charset)) {
             writer.write(contenu, 0, contenu.length());
@@ -198,7 +197,7 @@ public final class JavaEntityToNgForm {
     public  void generateHtmlFile(Class clazz) {
         String contenu = generateFormText(clazz);
         //   System.out.println(contenu + "\n\n\n");
-     String dest= baseEntityDir(clazz);
+     String dest= UtiGen.destEnttity(clazz);
         Path fichier = Paths.get(dest+"/"+clazz.getSimpleName().toLowerCase() + ".component.html");
         Charset charset = Charset.forName("UTF-8");
         try (BufferedWriter writer = Files.newBufferedWriter(fichier, charset)) {
@@ -262,6 +261,8 @@ public final class JavaEntityToNgForm {
         } catch (Exception e) {
         }
         
+        
+       
     }
     
     
