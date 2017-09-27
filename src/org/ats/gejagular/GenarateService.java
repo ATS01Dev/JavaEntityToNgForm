@@ -29,7 +29,7 @@ public class GenarateService {
         String className = clazz.getSimpleName();
         StringBuilder serviceClass = new StringBuilder();
         log.info("import angular librairie");
-        serviceClass.append("import { Injectable } from '@angular/core';\nimport { Observable } from 'rxjs/Rx';\nimport { Http, Response, URLSearchParams, BaseRequestOptions } from '@angular/http';\nimport { ").append(className).append(" } from './").append(className).append(".model';\n@Injectable()\n");
+        serviceClass.append("import { Injectable } from '@angular/core';\nimport { Observable } from 'rxjs/Rx';\nimport { Http, Response, URLSearchParams, BaseRequestOptions } from '@angular/http';\nimport { ").append(className).append(" } from './").append(className.toLowerCase()).append(".model';\n@Injectable()\n");
         log.log(Level.INFO, "Creat class '{''}'{0}", className);
         serviceClass.append("export class ").append(className).append("Service  { \nprivate resourceUrl = 'api/").append(className).append("';\n constructor(private http: Http) { }\n \n");
         log.log(Level.INFO, "Create methode create {0}", className);
