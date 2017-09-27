@@ -65,7 +65,7 @@ public final class JavaEntityToNgForm {
         return javaToTs1;
     }
 
-    public Map<String, Map<String, String>> getAttributeMap(Class clazz) {
+    private Map<String, Map<String, String>> getAttributeMap(Class clazz) {
         Map<String, Map<String, String>> globalMap = new HashMap<>();
         String tsType = "";
         String inputType = "";
@@ -110,7 +110,7 @@ public final class JavaEntityToNgForm {
         return globalMap;
     }
 
-    public String generateNgModelText(Class clazz) {
+    private String generateNgModelText(Class clazz) {
         String text = "export class " + clazz.getSimpleName() + " {\n"
                 + "    constructor(\n";
         for (Map.Entry<String, String> entry : getAttributeMap(clazz).get("tsAttribute").entrySet()) {
@@ -142,7 +142,7 @@ public final class JavaEntityToNgForm {
      * }
      * return modelsTextMap; }
      */
-    public void generateModelFile(Class clazz) {
+    private void generateModelFile(Class clazz) {
         String contenu = generateNgModelText(clazz);
      //baseEntityDir(clazz);
      String dest= UtiGen.destEnttity(clazz);
@@ -170,7 +170,7 @@ public final class JavaEntityToNgForm {
      *
      * }
      */
-    public String generateFormText(Class clazz) {
+    private String generateFormText(Class clazz) {
         String header;
         String fieldName = null;
         String inputType = "";
@@ -194,7 +194,7 @@ public final class JavaEntityToNgForm {
         return formControlText;
     }
 
-    public  void generateHtmlFile(Class clazz) {
+        private void generateHtmlFile(Class clazz) {
         String contenu = generateFormText(clazz);
         //   System.out.println(contenu + "\n\n\n");
      String dest= UtiGen.destEnttity(clazz);
@@ -212,16 +212,51 @@ public final class JavaEntityToNgForm {
         generateAll((Class) clazz);
     }
 
-    public void generateAll(Class clazz) {
+    private void generateAll(Class clazz) {
         generateModelFile(clazz);
         generateHtmlFile(clazz);
         genService(clazz);
     }
+    /**
+     * le package dans lequel  se trouve toute les class d'entitées exemle com.exemple.entity ou org.ats.gejagular.entities
+     * @param packageToScan 
+     */
+    public void genWithScanEntitiesDirFromPagakage(String packageToScan){
+        
+        String preparFile = packageToScan.replace(".", "/");
+        StringBuilder dirFile=new StringBuilder();
+        dirFile.append("./src/").append(preparFile);
+        System.out.println(" scan "+dirFile.toString());
+         File fic=new File(dirFile.toString());
+        File[] lisf=fic.listFiles();
+         for (File lisf1 : lisf) {
+            System.out.println("liste fille"+ lisf1.getName());
+            System.out.println("liste fille"+ lisf1.getName().replace("java", "class"));
+            String t=lisf1.getName().replace(".java", "");
+            Class c;
+            
+            System.out.println("Class "+t);
+            try {
+                c = Class.forName(packageToScan+"."+t);
+                System.out.println("Class convert "+c);
+                   outAllFile(c);
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(JavaEntityToNgForm.class.getName()).log(Level.SEVERE, null, ex);
+            }
+         
+        }
+        
+    }
+//    public void genWithScanEntitiesDirFromLocation(String location){
+//        
+//    }
     public static void main(String[] args) {
         JavaEntityToNgForm a=new JavaEntityToNgForm();
         
+        a.genWithScanEntitiesDirFromPagakage("org.ats.gejagular.entity");
+        //genWithScanEntitiesDir("org.ats.gejagular.entity");
         System.out.println("out work");
-        Class cs=Badge.class;
+    /*    Class cs=Badge.class;
         System.out.println("show class"+cs.getTypeName());
       //  org.ats.gejagular.
         StringJoiner joiner= new StringJoiner(".");
@@ -244,7 +279,8 @@ public final class JavaEntityToNgForm {
             }
          
         }
-        System.out.println("Repertoire");
+        */
+      /*  System.out.println("Repertoire");
         Path path =Paths.get("./", "src/org/ats/gejagular/entity");
         
         try(Stream<Path> strem=Files.list(path)) {
@@ -259,7 +295,7 @@ public final class JavaEntityToNgForm {
             strem.filter(paths -> path.toFile().isDirectory()).forEach(System.out::println);
             
         } catch (Exception e) {
-        }
+        }*/
         
         
        
