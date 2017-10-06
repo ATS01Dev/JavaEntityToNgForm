@@ -107,7 +107,7 @@ public class GenarateService {
                 + "  ) {\n"
                 + "  }\n"
                 + "\n"
-                + "  getAllhotelss(page?: number, size?: number): Observable<any> {\n"
+                + "  getAll"+className+"(page?: number, size?: number): Observable<any> {\n"
                 + "    //Create Request URL params\n"
                 + "    let me = this;\n"
                 + "    let params: URLSearchParams = new URLSearchParams();\n"
