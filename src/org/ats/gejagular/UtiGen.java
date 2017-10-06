@@ -59,7 +59,7 @@ public class UtiGen {
     
     static String destEnttity(Class clazz){
         System.out.println("Traitement");
-        Path path2 =Paths.get("./", "app/entity/"+clazz.getSimpleName());
+        Path path2 =Paths.get("./", "app/pages/"+clazz.getSimpleName());
         try {
             if(path2.toFile().exists()){
                 System.out.println("existe");
@@ -72,7 +72,44 @@ public class UtiGen {
             Logger.getLogger(JavaEntityToNgForm.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        return "./app/entity/"+clazz.getSimpleName();
+        return "./app/pages/"+clazz.getSimpleName();
     }
+    static String destChildrenView(Class clazz){
+        System.out.println("Traitement");
+        String dest ="./app/pages/"+clazz.getSimpleName()+"/view";
+        Path path2 =Paths.get("./", "app/pages/"+clazz.getSimpleName()+"/view/");
+        try {
+            if(path2.toFile().exists()){
+                System.out.println("existe");
+            }else
+            {
+               Path path3 = Files.createDirectories(path2);  
+            }
+           
+        } catch (IOException ex) {
+            Logger.getLogger(JavaEntityToNgForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return dest;
+    }
+    static String destChildrenAdd(Class clazz){
+        System.out.println("Traitement");
+        String dest ="./app/pages/"+clazz.getSimpleName()+"/add";
+        Path path2 =Paths.get("./", "app/pages/"+clazz.getSimpleName()+"/add/");
+        try {
+            if(path2.toFile().exists()){
+                System.out.println("existe");
+            }else
+            {
+               Path path3 = Files.createDirectories(path2);  
+            }
+           
+        } catch (IOException ex) {
+            Logger.getLogger(JavaEntityToNgForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return dest;
+    }
+    
     
 }

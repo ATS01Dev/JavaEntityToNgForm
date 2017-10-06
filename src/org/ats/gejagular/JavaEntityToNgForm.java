@@ -17,7 +17,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import static org.ats.gejagular.GenModule.genModule;
+import static org.ats.gejagular.GenRoute.genRoute;
+import static org.ats.gejagular.GenarateService.genHomeService;
 import static org.ats.gejagular.GenarateService.genService;
+import static org.ats.gejagular.GenerateComponent.*;
+import static org.ats.gejagular.children.Add.*;
 
 
 /**
@@ -32,6 +37,7 @@ public final class JavaEntityToNgForm {
     private Map<String, String> javaToHtmlInput = fillJavaToHtmlInputMap();
     private Map<String, String> attributeToTsMap = new HashMap<>();
     private Map<String, String> attributeToHtmlMap = new HashMap<>();
+    private static final Logger log = Logger.getLogger(JavaEntityToNgForm.class.getName());
 
     public JavaEntityToNgForm() {
     }
@@ -62,7 +68,7 @@ public final class JavaEntityToNgForm {
         return javaToTs1;
     }
 
-    private Map<String, Map<String, String>> getAttributeMap(Class clazz) {
+    public  Map<String, Map<String, String>> getAttributeMap(Class clazz) {
         Map<String, Map<String, String>> globalMap = new HashMap<>();
         String tsType = "";
         String inputType = "";
@@ -153,6 +159,101 @@ public final class JavaEntityToNgForm {
         }
         // contenu = "";
     }
+    /**
+     * Génerer les composants basic de l'entité parend
+     * @Autor koyaja
+     * @param clazz 
+     */
+    protected void generateComponentMain(Class clazz) {
+        String contenuMain = genMainComponent(clazz);
+        String contenuHtml = genHtmlComponent(clazz);
+        String contenuScss = genScssComponent(clazz);
+        String contenuService = genHomeService(clazz);
+        String contenuModule = genModule(clazz);
+        String contenuRoute = genRoute(clazz);
+        
+     //baseEntityDir(clazz);
+     String dest= UtiGen.destEnttity(clazz);
+    
+        //   System.out.println(contenu + "\n\n\n");
+        Path fichierMain = Paths.get(dest+"/"+clazz.getSimpleName().toLowerCase() + ".component.ts");
+        Path fichierHtml = Paths.get(dest+"/"+clazz.getSimpleName().toLowerCase() + ".component.html");
+        Path fichierScss = Paths.get(dest+"/"+clazz.getSimpleName().toLowerCase() + ".component.scss");
+        Path fichierService = Paths.get(dest+"/"+clazz.getSimpleName().toLowerCase() + ".service.ts");
+        Path fichierModule = Paths.get(dest+"/"+clazz.getSimpleName().toLowerCase() + ".module.ts");
+        Path fichierRoue = Paths.get(dest+"/"+clazz.getSimpleName().toLowerCase() + ".routing.ts");
+       
+        Charset charset = Charset.forName("UTF-8");
+        try (BufferedWriter writer = Files.newBufferedWriter(fichierMain, charset)) {
+            writer.write(contenuMain, 0, contenuMain.length());
+            writer.close();
+        } catch (IOException ioe) {
+            log.log(Level.INFO,"Erreur de generation {0} ",ioe);
+        }
+        try (BufferedWriter writer = Files.newBufferedWriter(fichierHtml, charset)) {
+            writer.write(contenuHtml, 0, contenuHtml.length());
+            writer.close();
+        } catch (IOException ioe) {
+            log.log(Level.INFO,"Erreur de generation {0} ",ioe);
+        }
+        try (BufferedWriter writer = Files.newBufferedWriter(fichierScss, charset)) {
+            writer.write(contenuScss, 0, contenuScss.length());
+            writer.close();
+        } catch (IOException ioe) {
+            log.log(Level.INFO,"Erreur de generation {0} ",ioe);
+        }
+        try (BufferedWriter writer = Files.newBufferedWriter(fichierService, charset)) {
+            writer.write(contenuService, 0, contenuService.length());
+            writer.close();
+        } catch (IOException ioe) {
+            log.log(Level.INFO,"Erreur de generation {0} ",ioe);
+        }
+        try (BufferedWriter writer = Files.newBufferedWriter(fichierModule, charset)) {
+            writer.write(contenuModule, 0, contenuModule.length());
+            writer.close();
+        } catch (IOException ioe) {
+            log.log(Level.INFO,"Erreur de generation {0} ",ioe);
+        }
+        try (BufferedWriter writer = Files.newBufferedWriter(fichierRoue, charset)) {
+            writer.write(contenuRoute, 0, contenuRoute.length());
+            writer.close();
+        } catch (IOException ioe) {
+            log.log(Level.INFO,"Erreur de generation {0} ",ioe);
+        }
+       
+        
+    }
+    
+     protected void genChldrien(Class clazz){
+         String contenuAddTs = genaddHomTs(clazz);
+         String contenuHtml = constutddHtml(clazz);
+         String contenuScss = constuteddScss();
+         
+          String destViw= UtiGen.destChildrenAdd(clazz);
+          Path fichierAddTs = Paths.get(destViw+"/"+clazz.getSimpleName().toLowerCase() + ".component-add.ts");
+          Path fichierHtml = Paths.get(destViw+"/"+clazz.getSimpleName().toLowerCase() + ".component-add.html");
+          Path fichierScss = Paths.get(destViw+"/"+clazz.getSimpleName().toLowerCase() + ".component-add.scss");
+          // view gen
+           Charset charset = Charset.forName("UTF-8");
+        try (BufferedWriter writer = Files.newBufferedWriter(fichierAddTs, charset)) {
+            writer.write(contenuAddTs, 0, contenuAddTs.length());
+            writer.close();
+        } catch (IOException ioe) {
+            log.log(Level.INFO,"Erreur de generation {0} ",ioe);
+        }
+        try (BufferedWriter writer = Files.newBufferedWriter(fichierHtml, charset)) {
+            writer.write(contenuHtml, 0, contenuHtml.length());
+            writer.close();
+        } catch (IOException ioe) {
+            log.log(Level.INFO,"Erreur de generation {0} ",ioe);
+        }
+        try (BufferedWriter writer = Files.newBufferedWriter(fichierScss, charset)) {
+            writer.write(contenuScss, 0, contenuScss.length());
+            writer.close();
+        } catch (IOException ioe) {
+            log.log(Level.INFO,"Erreur de generation {0} ",ioe);
+        }
+     }
 
     /**
      *
@@ -206,7 +307,9 @@ public final class JavaEntityToNgForm {
     }
     
     public void outAllFile(Object clazz){
-        generateAll((Class) clazz);
+       // generateAll((Class) clazz);
+       generateComponentMain((Class) clazz);
+       genChldrien((Class) clazz);
     }
 
     private void generateAll(Class clazz) {
@@ -298,6 +401,10 @@ public final class JavaEntityToNgForm {
        
     }
     
+    
+    /**
+     * gen add view
+     */
     
     
 }

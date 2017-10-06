@@ -71,17 +71,64 @@ public class GenarateService {
     }
 
     static void genService(Class clazz) {
+
         String contenu = coreService(clazz);
         //   System.out.println(contenu + "\n\n\n");
-       // baseEntityDir(clazz);
-         String dest= UtiGen.destEnttity(clazz);
-        Path fichier = Paths.get(dest+"/"+clazz.getSimpleName().toLowerCase() + ".service.ts");
+        // baseEntityDir(clazz);
+        String dest = UtiGen.destEnttity(clazz);
+        Path fichier = Paths.get(dest + "/" + clazz.getSimpleName().toLowerCase() + ".service.ts");
         Charset charset = Charset.forName("UTF-8");
         try (BufferedWriter writer = Files.newBufferedWriter(fichier, charset)) {
             writer.write(contenu, 0, contenu.length());
             writer.close();
         } catch (IOException ioe) {
         }
+    }
+
+    static String genHomeService(Class clazz) {
+        String className = clazz.getSimpleName();
+        String classNameMin = clazz.getSimpleName().toLowerCase();
+        StringBuilder serviceClass = new StringBuilder();
+        serviceClass.append("import {Injectable} from \"@angular/core\";\n"
+                + "import { Http, Headers, Response, Request, RequestOptions, URLSearchParams,RequestMethod } from '@angular/http';\n"
+                + "\n"
+                + "import {ApiRequestService} from \"../shared/requestHttp/api-request.service\";\n"
+                + "import {Observable} from \"rxjs/Observable\";\n"
+                + "import {AuthenticationService} from \"../shared/authentication/authentication.service\";\n"
+                + "\n"
+                + "@Injectable()\n"
+                + "export class "+className+"Service {\n"
+                + "\n"
+                + "  pathUrl=\"api/"+classNameMin+"\";\n"
+                + "  constructor(private apiRequest: ApiRequestService,\n"
+                + "              private http: Http,\n"
+                + "              private userInfoService: AuthenticationService\n"
+                + "              // private translate:TranslateService\n"
+                + "  ) {\n"
+                + "  }\n"
+                + "\n"
+                + "  getAllhotelss(page?: number, size?: number): Observable<any> {\n"
+                + "    //Create Request URL params\n"
+                + "    let me = this;\n"
+                + "    let params: URLSearchParams = new URLSearchParams();\n"
+                + "    params.set('page', typeof page === \"number\" ? page.toString() : \"0\");\n"
+                + "    params.set('size', typeof page === \"number\" ? size.toString() : \"1000\");\n"
+                + "    return this.apiRequest.get(this.pathUrl, params);\n"
+                + "  }\n"
+                + "\n"
+                + "  save(hotels: any){\n"
+                + "    return this.apiRequest.post(this.pathUrl,hotels);\n"
+                + "  }\n"
+                + "  delete(id:any){\n"
+                + "    return this.apiRequest.delete(`${this.pathUrl}/${id}`)\n"
+                + "  }\n"
+                + "  update(hotels: any){\n"
+                + "    return this.apiRequest.put(this.pathUrl, hotels);\n"
+                + "  }\n"
+                + "  \n"
+                + "}");
+
+        return serviceClass.toString();
     }
 
 }

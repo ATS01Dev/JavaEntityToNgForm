@@ -10,7 +10,7 @@ package org.ats.gejagular;
  * @author hp
  */
 public class GenerateComponent {
-    
+
     static String coreComponent(Class clazz) {
         String className = clazz.getSimpleName();
         StringBuilder componentClass = new StringBuilder();
@@ -32,8 +32,36 @@ public class GenerateComponent {
                 .append("Service: ")
                 .append(className)
                 .append("Service)\n");
-    
-    
+
         return componentClass.toString();
+    }
+
+    static String genMainComponent(Class clazz) {
+
+        String className = clazz.getSimpleName();
+        String classNameMin = clazz.getSimpleName().toLowerCase();
+        StringBuilder componentBuilder = new StringBuilder();
+        componentBuilder.append("import { Component, OnInit } from '@angular/core';\n\n\n@Component({\n  // tslint:disable-next-line:component-selector\n  selector: 'app-").
+                append(classNameMin).append("',\n  templateUrl: './").
+                append(classNameMin).append(".component.html',\n  styleUrls: ['./").append(classNameMin).append(".component.scss']\n})\nexport class ").append(className).append("Component implements OnInit {\n\n\n\n  constructor() { }\n\n  ngOnInit() {\n\n\n\n  }\n\n\n\n}");
+
+        return componentBuilder.toString();
+    }
+
+    static String genHtmlComponent(Class clazz) {
+
+        String className = clazz.getSimpleName();
+        String classNameMin = clazz.getSimpleName().toLowerCase();
+        StringBuilder componentBuilder = new StringBuilder();
+        componentBuilder.append("<router-outlet></router-outlet>");
+        return componentBuilder.toString();
+    }
+    static String genScssComponent(Class clazz) {
+
+        String className = clazz.getSimpleName();
+        String classNameMin = clazz.getSimpleName().toLowerCase();
+        StringBuilder componentBuilder = new StringBuilder();
+        componentBuilder.append("");
+        return componentBuilder.toString();
     }
 }
