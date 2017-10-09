@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.ats.gejagular;
+package org.ats.gejagular.core;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,6 +12,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.ats.gejagular.JavaEntityToNgForm;
 
 /**
  *
@@ -32,7 +33,7 @@ public class UtiGen {
     return "entity";
     }
     
-    static String baseEntityDir(Class clazz){
+    public static String baseEntityDir(Class clazz){
         
            File dirEntity =new File(clazz.getSimpleName().toLowerCase());
         if (!dirEntity.exists()) {
@@ -57,7 +58,7 @@ public class UtiGen {
         return dirEntity.getAbsolutePath();
     }
     
-    static String destEnttity(Class clazz){
+    public static String destEnttity(Class clazz){
         System.out.println("Traitement");
         Path path2 =Paths.get("./", "app/pages/"+clazz.getSimpleName());
         try {
@@ -74,7 +75,7 @@ public class UtiGen {
         
         return "./app/pages/"+clazz.getSimpleName();
     }
-    static String destChildrenView(Class clazz){
+    public static String destChildrenView(Class clazz){
         System.out.println("Traitement");
         String dest ="./app/pages/"+clazz.getSimpleName()+"/view";
         Path path2 =Paths.get("./", "app/pages/"+clazz.getSimpleName()+"/view/");
@@ -92,7 +93,7 @@ public class UtiGen {
         
         return dest;
     }
-    static String destChildrenAdd(Class clazz){
+   public static String destChildrenAdd(Class clazz){
         System.out.println("Traitement");
         String dest ="./app/pages/"+clazz.getSimpleName()+"/add";
         Path path2 =Paths.get("./", "app/pages/"+clazz.getSimpleName()+"/add/");

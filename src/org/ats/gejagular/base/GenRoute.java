@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.ats.gejagular;
+package org.ats.gejagular.base;
 
 /**
  *
@@ -11,7 +11,7 @@ package org.ats.gejagular;
  */
 public class GenRoute {
 
-    static String genRoute(Class clazz) {
+   public static String genRoute(Class clazz) {
         String className = clazz.getSimpleName();
         String classNameMin = clazz.getSimpleName().toLowerCase();
         StringBuilder routeClass = new StringBuilder();

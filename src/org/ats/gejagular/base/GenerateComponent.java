@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.ats.gejagular;
+package org.ats.gejagular.base;
 
 /**
  *
@@ -11,7 +11,7 @@ package org.ats.gejagular;
  */
 public class GenerateComponent {
 
-    static String coreComponent(Class clazz) {
+   public static String coreComponent(Class clazz) {
         String className = clazz.getSimpleName();
         StringBuilder componentClass = new StringBuilder();
         componentClass.append("import { Component, OnInit, OnDestroy } from '@angular/core';\nimport { ActivatedRoute, Router } from '@angular/router';\nimport { Subscription } from 'rxjs/Rx';\n import { ")
@@ -36,7 +36,7 @@ public class GenerateComponent {
         return componentClass.toString();
     }
 
-    static String genMainComponent(Class clazz) {
+  public static String genMainComponent(Class clazz) {
 
         String className = clazz.getSimpleName();
         String classNameMin = clazz.getSimpleName().toLowerCase();
@@ -48,7 +48,7 @@ public class GenerateComponent {
         return componentBuilder.toString();
     }
 
-    static String genHtmlComponent(Class clazz) {
+   public static String genHtmlComponent(Class clazz) {
 
         String className = clazz.getSimpleName();
         String classNameMin = clazz.getSimpleName().toLowerCase();
@@ -56,7 +56,7 @@ public class GenerateComponent {
         componentBuilder.append("<router-outlet></router-outlet>");
         return componentBuilder.toString();
     }
-    static String genScssComponent(Class clazz) {
+   public static String genScssComponent(Class clazz) {
 
         String className = clazz.getSimpleName();
         String classNameMin = clazz.getSimpleName().toLowerCase();

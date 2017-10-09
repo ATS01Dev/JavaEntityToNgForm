@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.ats.gejagular;
+package org.ats.gejagular.base;
 
+import org.ats.gejagular.core.UtiGen;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -25,7 +26,7 @@ public class GenarateService {
     public GenarateService() {
     }
 
-    static String coreService(Class clazz) {
+  public  static String coreService(Class clazz) {
         String className = clazz.getSimpleName();
         StringBuilder serviceClass = new StringBuilder();
         log.info("import angular librairie");
@@ -70,7 +71,7 @@ public class GenarateService {
         return serviceClass.toString();
     }
 
-    static void genService(Class clazz) {
+   public static void genService(Class clazz) {
 
         String contenu = coreService(clazz);
         //   System.out.println(contenu + "\n\n\n");
@@ -85,7 +86,7 @@ public class GenarateService {
         }
     }
 
-    static String genHomeService(Class clazz) {
+   public static String genHomeService(Class clazz) {
         String className = clazz.getSimpleName();
         String classNameMin = clazz.getSimpleName().toLowerCase();
         StringBuilder serviceClass = new StringBuilder();
